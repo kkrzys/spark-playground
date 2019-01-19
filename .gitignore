@@ -1,0 +1,7 @@
+.idea/
+*.log
+metastore_db/
+*.iml
+spark-warehouse/
+target/
+/data/
