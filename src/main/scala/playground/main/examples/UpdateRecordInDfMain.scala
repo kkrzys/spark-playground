@@ -6,7 +6,7 @@ import playground.utils.SparkUtils
 
 object UpdateRecordInDfMain {
   def main(args: Array[String]): Unit = {
-    implicit val sparkSession: SparkSession = SparkUtils.createSparkSession("updateRecordInDfMain")
+    implicit val sparkSession: SparkSession = SparkUtils.createHiveSparkSession("updateRecordInDfMain")
 
     val updateRecordInDfJob = new UpdateRecordInDfExample()
     updateRecordInDfJob.execute()
