@@ -9,6 +9,6 @@ object UpdateRecordInDfMain {
     implicit val sparkSession: SparkSession = SparkUtils.createHiveSparkSession("updateRecordInDfMain")
 
     val updateRecordInDfJob = new UpdateRecordInDfExample()
-    updateRecordInDfJob.execute()
+    updateRecordInDfJob.execute2()
   }
 }

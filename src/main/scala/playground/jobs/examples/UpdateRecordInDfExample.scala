@@ -3,6 +3,7 @@ package playground.jobs.examples
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.functions._
 import playground.jobs.SJob
+import playground.utils.DataFrameUtils
 
 class UpdateRecordInDfExample(implicit sparkSession: SparkSession) extends SJob {
   override def execute(): Unit = {
@@ -71,6 +72,34 @@ class UpdateRecordInDfExample(implicit sparkSession: SparkSession) extends SJob 
     mergedRows.write.mode(SaveMode.Append).saveAsTable(hiveTableName)
 
     println("ALL RESULTS: ")
+    sparkSession.read.table(hiveTableName).show(50)
+  }
+
+  def execute2(): Unit = {
+    import sparkSession.implicits._
+
+    //original dataframe
+    val eplStandingReceiveDf = sparkSession.read
+      .option("header", "true")
+      .csv("src/main/resources/data/landing/topics/dev-eplstanding-receive/*.csv")
+
+    val hiveTableName = "updateRecordInDfExample"
+
+    val rowDf =
+      Seq(("Monaco", 2, 3, null, 1, null, null, null, null, null, 1,
+        null, null, null, null, null, null, null)).toDF()
+
+    DataFrameUtils.updateDf(eplStandingReceiveDf, rowDf, "Team")(hiveTableName)
+
+    val eplStandingHiveTableDf = sparkSession.read.table(hiveTableName)
+
+    val newRowsDf =
+      Seq(("Monaco", null: Integer, null: Integer, 10, null: Integer, 11, 12, 13, 14, 15, null: Integer, 16, 17, 18, 19, 20, 21, 22),
+        ("NonExisting", null: Integer, null: Integer, 100, null: Integer, 111, 122, 133, 144, 155, null: Integer, 166, 177, 188, 199, 200, 211, 222),
+        ("Wimbledon", null: Integer, Integer.valueOf(1), 2, Integer.valueOf(3), 4, 5, 6, 7, 8, Integer.valueOf(9), 10, 11, 12, 13, 14, 15, 16)).toDF()
+
+    DataFrameUtils.updateDf(eplStandingHiveTableDf, newRowsDf, "Team")(hiveTableName)
+
     sparkSession.read.table(hiveTableName).show(50)
   }
 }
