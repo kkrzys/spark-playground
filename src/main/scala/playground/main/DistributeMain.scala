@@ -2,7 +2,7 @@ package playground.main
 
 import org.apache.spark.sql.SparkSession
 import playground.jobs.etl.DistributeSJob
-import playground.transformations.FootballMatchCompletedDistributeTransformations
+import playground.transformations.{EplStandingReceivedDistributeTransformations, FootballMatchCompletedDistributeTransformations}
 import playground.utils.SparkUtils
 
 object DistributeMain {
@@ -10,8 +10,9 @@ object DistributeMain {
     implicit val sparkSession: SparkSession = SparkUtils.createSparkSession("distributeMain")
 
     val footballMatchCompletedTransformations = new FootballMatchCompletedDistributeTransformations()
+    val eplStandingReceivedTransformations = new EplStandingReceivedDistributeTransformations()
 
-    val distribute = new DistributeSJob(footballMatchCompletedTransformations)
+    val distribute = new DistributeSJob(footballMatchCompletedTransformations, eplStandingReceivedTransformations)
     distribute.execute()
   }
 }
