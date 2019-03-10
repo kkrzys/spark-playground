@@ -1,9 +1,9 @@
 package playground.jobs.etl
 
-import org.apache.spark.sql.{Dataset, SaveMode, SparkSession}
+import org.apache.spark.sql.{SaveMode, SparkSession}
 import playground.api.EplStandingReceiveExplodeDatasetNames._
 import playground.api.FootballMatchCompleteExplodeDatasetNames._
-import playground.api.{Container, ContainerInstances}
+import playground.api.{ContainerInstances, ContainerUtils}
 import playground.jobs.SJob
 
 class ExplodeSJob(implicit sparkSession: SparkSession) extends SJob {
@@ -15,13 +15,9 @@ class ExplodeSJob(implicit sparkSession: SparkSession) extends SJob {
     val footballMatchCompleteContainer = explodeContainerInstances.footballMatchCompleteContainer
     val eplStandingReceiveContainer = explodeContainerInstances.eplStandingReceiveContainer
 
-    val footballMatchCompleteContainerResult: Map[Container.DatasetName, Dataset[_]] =
-      Container.run(footballMatchCompleteContainer)
-    val eplStandingReceiveContainerResult: Map[Container.DatasetName, Dataset[_]] =
-      Container.run(eplStandingReceiveContainer)
-
-    val result = footballMatchCompleteContainerResult(Res1)
-      .join(eplStandingReceiveContainerResult(Res2), Seq("team", "match_year_date"))
+    val result =
+      ContainerUtils
+        .join(footballMatchCompleteContainer, eplStandingReceiveContainer)(Res1, Res2)(Seq("team", "match_year_date"))
 
     result.show(50)
 

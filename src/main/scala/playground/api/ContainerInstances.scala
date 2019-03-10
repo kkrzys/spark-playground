@@ -13,10 +13,10 @@ object ContainerInstances {
     lazy val footballMatchCompleteContainer = new Container[Dataset, Row] {
       import FootballMatchCompleteExplodeDatasetNames._
 
-      override def inputDataset(implicit sparkSession: SparkSession): DataFrame =
+      override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
         sparkSession.read.avro("data/raw/FootballMatchCompleted")
 
-      override def mapDataset(inputDataset: DataFrame)(implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
+      override protected def mapDataset(inputDataset: DataFrame)(implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
         import sparkSession.implicits._
 
         val transformedFootballMatchCompleteDf = inputDataset.select(
@@ -40,7 +40,7 @@ object ContainerInstances {
         Map(HomeDf -> homeTeamDf, AwayDf -> awayTeamDf)
       }
 
-      override def combineDatasets(inputDatasets: Map[DatasetName, Dataset[_]])
+      override protected def combineDatasets(inputDatasets: Map[DatasetName, Dataset[_]])
                                   (implicit sparkSession: SparkSession): Option[Map[DatasetName, Dataset[_]]] = {
         import sparkSession.implicits._
 
@@ -56,10 +56,10 @@ object ContainerInstances {
     lazy val eplStandingReceiveContainer = new Container[Dataset, Row] {
       import EplStandingReceiveExplodeDatasetNames._
 
-      override def inputDataset(implicit sparkSession: SparkSession): DataFrame =
+      override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
         sparkSession.read.avro("data/raw/EplStandingReceived")
 
-      override def mapDataset(inputDataset: DataFrame)
+      override protected def mapDataset(inputDataset: DataFrame)
                              (implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
         import sparkSession.implicits._
 
