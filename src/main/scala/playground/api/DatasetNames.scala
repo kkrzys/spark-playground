@@ -3,6 +3,16 @@ package playground.api
 import playground.api.Container.DatasetName
 
 object DatasetNames {
+
+  object Ingest {
+    object FootballMatchCompleteDatasetNames {
+      case object ResultFootballMatchCompleteDf extends DatasetName
+    }
+    object EplStandingReceiveDatasetNames {
+      case object ResultEplStandingReceiveDf extends DatasetName
+    }
+  }
+
   object Explode {
     object FootballMatchCompleteDatasetNames {
       case object HomeDf extends DatasetName
