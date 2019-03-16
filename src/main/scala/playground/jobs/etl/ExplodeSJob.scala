@@ -10,10 +10,7 @@ class ExplodeSJob(implicit sparkSession: SparkSession) extends SJob {
 
   override def execute(): Unit = {
 
-    val explodeContainerInstances = ContainerInstances.Explode
-
-    val footballMatchCompleteContainer = explodeContainerInstances.footballMatchCompleteContainer
-    val eplStandingReceiveContainer = explodeContainerInstances.eplStandingReceiveContainer
+    import ContainerInstances.Explode._
 
     val result =
       ContainerUtils
