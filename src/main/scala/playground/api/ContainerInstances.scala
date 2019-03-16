@@ -11,7 +11,7 @@ object ContainerInstances {
   object Explode {
 
     lazy val footballMatchCompleteContainer = new Container[Dataset, Row] {
-      import FootballMatchCompleteExplodeDatasetNames._
+      import DatasetNames.Explode.FootballMatchCompleteDatasetNames._
 
       override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
         sparkSession.read.avro("data/raw/FootballMatchCompleted")
@@ -54,7 +54,7 @@ object ContainerInstances {
     }
 
     lazy val eplStandingReceiveContainer = new Container[Dataset, Row] {
-      import EplStandingReceiveExplodeDatasetNames._
+      import DatasetNames.Explode.EplStandingReceiveDatasetNames._
 
       override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
         sparkSession.read.avro("data/raw/EplStandingReceived")

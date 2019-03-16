@@ -2,14 +2,16 @@ package playground.api
 
 import playground.api.Container.DatasetName
 
-sealed trait DatasetNames
+object DatasetNames {
+  object Explode {
+    object FootballMatchCompleteDatasetNames {
+      case object HomeDf extends DatasetName
+      case object AwayDf extends DatasetName
+      case object Res1 extends DatasetName
+    }
 
-object FootballMatchCompleteExplodeDatasetNames extends DatasetNames {
-  case object HomeDf extends DatasetName
-  case object AwayDf extends DatasetName
-  case object Res1 extends DatasetName
-}
-
-object EplStandingReceiveExplodeDatasetNames extends DatasetNames {
-  case object Res2 extends DatasetName
+    object EplStandingReceiveDatasetNames {
+      case object Res2 extends DatasetName
+    }
+  }
 }

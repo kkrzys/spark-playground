@@ -1,8 +1,8 @@
 package playground.jobs.etl
 
 import org.apache.spark.sql.{SaveMode, SparkSession}
-import playground.api.EplStandingReceiveExplodeDatasetNames._
-import playground.api.FootballMatchCompleteExplodeDatasetNames._
+import playground.api.DatasetNames.Explode.EplStandingReceiveDatasetNames._
+import playground.api.DatasetNames.Explode.FootballMatchCompleteDatasetNames._
 import playground.api.{ContainerInstances, ContainerUtils}
 import playground.jobs.SJob
 
