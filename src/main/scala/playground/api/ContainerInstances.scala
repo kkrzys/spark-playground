@@ -60,6 +60,37 @@ object ContainerInstances {
     }
   }
 
+  object Distribute {
+    lazy val footballMatchCompleteContainer = new Container[Dataset, Row] {
+      import DatasetNames.Distribute.FootballMatchCompleteDatasetNames._
+
+      override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
+        sparkSession.read.avro("data/raw/ingestion/FootballMatchCompleted")
+
+      override protected def mapDataset(inputDataset: DataFrame)
+                                       (implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
+        val res = inputDataset.drop("batch_id")
+          .withColumn("match_year_date", date_format(to_date(col("Date"), "dd/MM/yy"), "yyyy"))
+
+        Map(ResultFootballMatchCompleteDf -> res)
+      }
+    }
+
+    lazy val eplStandingReceiveContainer = new Container[Dataset, Row] {
+      import DatasetNames.Distribute.EplStandingReceiveDatasetNames._
+
+      override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
+        sparkSession.read.avro("data/raw/ingestion/EplStandingReceived")
+
+      override protected def mapDataset(inputDataset: DataFrame)
+                                       (implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
+        val res = inputDataset.drop("batch_id")
+
+        Map(ResultEplStandingReceiveDf -> res)
+      }
+    }
+  }
+
   object Explode {
 
     lazy val footballMatchCompleteContainer = new Container[Dataset, Row] {
