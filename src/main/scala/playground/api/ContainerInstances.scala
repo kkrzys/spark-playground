@@ -3,7 +3,7 @@ package playground.api
 import com.databricks.spark.avro._
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.IntegerType
-import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
+import org.apache.spark.sql._
 import playground.api.Container.DatasetName
 import playground.utils.RandomGenerator
 
@@ -33,6 +33,13 @@ object ContainerInstances {
 
         Map(ResultFootballMatchCompleteDf -> res)
       }
+
+      override protected def writePath: String = "data/raw/ingestion/FootballMatchCompleted"
+
+      override protected def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
+        datasets(ResultFootballMatchCompleteDf)
+          .write.mode(SaveMode.Overwrite).partitionBy("batch_id")
+          .avro(writePath)
     }
 
     lazy val eplStandingReceiveContainer = new Container[Dataset, Row] {
@@ -57,11 +64,19 @@ object ContainerInstances {
 
         Map(ResultEplStandingReceiveDf -> res)
       }
+
+      override protected def writePath: String = "data/raw/ingestion/EplStandingReceived"
+
+      override protected def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
+        datasets(ResultEplStandingReceiveDf)
+          .write.mode(SaveMode.Overwrite).partitionBy("batch_id")
+          .avro(writePath)
     }
   }
 
   object Distribute {
     lazy val footballMatchCompleteContainer = new Container[Dataset, Row] {
+
       import DatasetNames.Distribute.FootballMatchCompleteDatasetNames._
 
       override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
@@ -74,9 +89,17 @@ object ContainerInstances {
 
         Map(ResultFootballMatchCompleteDf -> res)
       }
+
+      override protected def writePath: String = "data/raw/FootballMatchCompleted"
+
+      override protected def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
+        datasets(ResultFootballMatchCompleteDf)
+          .write.mode(SaveMode.Overwrite).partitionBy("match_year_date")
+          .avro(writePath)
     }
 
     lazy val eplStandingReceiveContainer = new Container[Dataset, Row] {
+
       import DatasetNames.Distribute.EplStandingReceiveDatasetNames._
 
       override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
@@ -88,6 +111,12 @@ object ContainerInstances {
 
         Map(ResultEplStandingReceiveDf -> res)
       }
+
+      override protected def writePath: String = "data/raw/EplStandingReceived"
+
+      override protected def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
+        datasets(ResultEplStandingReceiveDf)
+          .write.mode(SaveMode.Overwrite).avro(writePath)
     }
   }
 
