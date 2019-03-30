@@ -1,11 +1,11 @@
-package playground.api
+package playground.core
 
 import org.apache.spark.sql.SparkSession
-import playground.api.Container.DatasetName
+import playground.core.DataContainer.DatasetName
 
 import scala.language.higherKinds
 
-private[api] trait Container[F[_], A] {
+private[core] trait DataContainer[F[_], A] {
   protected def inputDataset(implicit sparkSession: SparkSession): F[A]
 
   protected def mapDataset(inputDataset: F[A])(implicit sparkSession: SparkSession): Map[DatasetName, F[_]]
@@ -20,11 +20,11 @@ private[api] trait Container[F[_], A] {
     throw new NotImplementedError("writeFunc is not implemented!")
 }
 
-object Container {
+object DataContainer {
 
   trait DatasetName
 
-  def run[F[_], A](c: Container[F, A], write: Boolean = false)
+  def run[F[_], A](c: DataContainer[F, A], write: Boolean = false)
                   (implicit sparkSession: SparkSession): Map[DatasetName, F[_]] = {
     val mapped = c.mapDataset(c.inputDataset)
     val maybeCombined = c.combineDatasets(mapped).getOrElse(mapped)

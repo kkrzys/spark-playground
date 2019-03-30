@@ -1,16 +1,16 @@
-package playground.api
+package playground.core
 
 import com.databricks.spark.avro._
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.IntegerType
 import org.apache.spark.sql._
-import playground.api.Container.DatasetName
+import playground.core.DataContainer.DatasetName
 import playground.utils.RandomGenerator
 
-object ContainerInstances {
+object DataContainerInstances {
 
   object Ingest {
-    lazy val footbalMatchCompleteContainer = new Container[Dataset, Row] {
+    lazy val footbalMatchCompleteContainer = new DataContainer[Dataset, Row] {
 
       import DatasetNames.Ingest.FootballMatchCompleteDatasetNames._
 
@@ -42,7 +42,7 @@ object ContainerInstances {
           .avro(writePath)
     }
 
-    lazy val eplStandingReceiveContainer = new Container[Dataset, Row] {
+    lazy val eplStandingReceiveContainer = new DataContainer[Dataset, Row] {
 
       import DatasetNames.Ingest.EplStandingReceiveDatasetNames._
 
@@ -75,7 +75,7 @@ object ContainerInstances {
   }
 
   object Distribute {
-    lazy val footballMatchCompleteContainer = new Container[Dataset, Row] {
+    lazy val footballMatchCompleteContainer = new DataContainer[Dataset, Row] {
 
       import DatasetNames.Distribute.FootballMatchCompleteDatasetNames._
 
@@ -98,7 +98,7 @@ object ContainerInstances {
           .avro(writePath)
     }
 
-    lazy val eplStandingReceiveContainer = new Container[Dataset, Row] {
+    lazy val eplStandingReceiveContainer = new DataContainer[Dataset, Row] {
 
       import DatasetNames.Distribute.EplStandingReceiveDatasetNames._
 
@@ -122,7 +122,7 @@ object ContainerInstances {
 
   object Explode {
 
-    lazy val footballMatchCompleteContainer = new Container[Dataset, Row] {
+    lazy val footballMatchCompleteContainer = new DataContainer[Dataset, Row] {
 
       import DatasetNames.Explode.FootballMatchCompleteDatasetNames._
 
@@ -166,7 +166,7 @@ object ContainerInstances {
       }
     }
 
-    lazy val eplStandingReceiveContainer = new Container[Dataset, Row] {
+    lazy val eplStandingReceiveContainer = new DataContainer[Dataset, Row] {
 
       import DatasetNames.Explode.EplStandingReceiveDatasetNames._
 

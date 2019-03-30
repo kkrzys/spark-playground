@@ -1,15 +1,15 @@
 package playground.jobs.etl
 
 import org.apache.spark.sql.SparkSession
-import playground.api.Container
+import playground.core.DataContainer
 import playground.jobs.SJob
 
 class IngestSJob(implicit sparkSession: SparkSession) extends SJob {
   override def execute(): Unit = {
 
-    import playground.api.ContainerInstances.Ingest._
+    import playground.core.DataContainerInstances.Ingest._
 
-    Container.run(footbalMatchCompleteContainer, write = true)
-    Container.run(eplStandingReceiveContainer, write = true)
+    DataContainer.run(footbalMatchCompleteContainer, write = true)
+    DataContainer.run(eplStandingReceiveContainer, write = true)
   }
 }

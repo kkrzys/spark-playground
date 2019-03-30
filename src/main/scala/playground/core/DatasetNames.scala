@@ -1,6 +1,6 @@
-package playground.api
+package playground.core
 
-import playground.api.Container.DatasetName
+import playground.core.DataContainer.DatasetName
 
 object DatasetNames {
 
