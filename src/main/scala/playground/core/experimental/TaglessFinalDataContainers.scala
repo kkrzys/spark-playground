@@ -54,7 +54,9 @@ class ListInterpreter extends DataContainerInterpreter[List] {
 
 class DataContainerExecutor[DataContainer[_]](dc: DataContainerInterpreter[DataContainer]) {
   def execute(in: DataContainer[String]): DataContainer[Integer] = {
-    dc.map(in)(el => el.length)
+    val filteredDc = dc.filter(in)(_.nonEmpty)
+
+    dc.map(filteredDc)(_.length)
   }
 }
 
@@ -63,8 +65,8 @@ object DataContainerMain extends App {
 
   import spark.implicits._
 
-  val l: List[String] = List("one", "two", "three")
-  val ds: Dataset[String] = Seq("one", "two", "three").toDS()
+  val ds: Dataset[String] = Seq("one", "two", "three", "").toDS()
+  val l: List[String] = List("one", "two", "three", "")
 
   val resultDs = new DataContainerExecutor(new DatasetInterpreter).execute(ds)
   val resultL = new DataContainerExecutor(new ListInterpreter).execute(l)
