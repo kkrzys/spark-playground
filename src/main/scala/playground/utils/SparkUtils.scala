@@ -21,6 +21,6 @@ object SparkUtils {
 
   private def sparkSessionCommonBuilder(appName: String): SparkSession.Builder =
     SparkSession.builder()
-      .master("local")
+      .master("local[*]")
       .appName(appName)
 }
