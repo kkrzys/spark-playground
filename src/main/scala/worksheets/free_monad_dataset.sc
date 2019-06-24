@@ -11,8 +11,8 @@ case class DataSetTransformation[A, B](ds: Dataset[A], t: Dataset[A] => Dataset[
 
 type SOperation[T] = Free[SOperationT, T]
 
-def transformDs[A, B](df: Dataset[A], t: Dataset[A] => Dataset[B]): SOperation[Dataset[B]] =
-  liftF[SOperationT, Dataset[B]](DataSetTransformation(df, t))
+def transformDs[A, B](ds: Dataset[A], t: Dataset[A] => Dataset[B]): SOperation[Dataset[B]] =
+  liftF[SOperationT, Dataset[B]](DataSetTransformation(ds, t))
 
 //---------------------------------------------------------------------------
 
