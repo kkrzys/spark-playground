@@ -5,7 +5,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SparkSession}
 import playground.utils.SparkUtils
 
-sealed trait SOperationT[A]
+sealed trait SOperationT[T]
 
 case class DataSetTransformation[A, B](ds: Dataset[A], t: Dataset[A] => Dataset[B]) extends SOperationT[Dataset[B]]
 
@@ -40,9 +40,9 @@ def program: SOperation[Dataset[_]] =
 
 def dataSetCompiler: SOperationT ~> Id =
   new (SOperationT ~> Id) {
-    override def apply[A](fa: SOperationT[A]): Id[A] = {
+    override def apply[T](fa: SOperationT[T]): Id[T] = {
       fa match {
-        case DataSetTransformation(dataSet, t) => t(dataSet).asInstanceOf[A]
+        case DataSetTransformation(dataSet, t) => t(dataSet).asInstanceOf[T]
       }
     }
   }
