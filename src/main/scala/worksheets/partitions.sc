@@ -1,4 +1,3 @@
-import com.databricks.spark.avro._
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Row, SaveMode, SparkSession}
 import playground.utils.SparkUtils
@@ -12,11 +11,11 @@ val df = Seq(("USA", 1, 1), ("USA", 11, 11), ("Poland", 2, 2), ("England", 3, 3)
   ("Ukraine", 4, 4), ("Ukraine", 444, 444)).toDF("Country", "N1", "N2")
 
 df.repartition(4)
-  .write.mode(SaveMode.Overwrite)
+  .write.format("parquet").mode(SaveMode.Overwrite)
   .partitionBy("Country")
-  .avro("partitions")
+  .save("partitions")
 
-val res = spark.read.avro("partitions")
+val res = spark.read.format("parquet").load("partitions")
 
 println(s"Default parallelism: ${sc.defaultParallelism}")
 println(s"Num of partitions: ${res.rdd.partitions.length}")

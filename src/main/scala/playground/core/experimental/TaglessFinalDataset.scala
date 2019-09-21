@@ -1,6 +1,5 @@
 package playground.core.experimental
 
-import com.databricks.spark.avro._
 import org.apache.spark.sql.functions.{col, when}
 import org.apache.spark.sql.{Dataset, Row, SaveMode, SparkSession}
 import playground.core.experimental.DataContainerAlgebra.IngestInterpreter
@@ -49,8 +48,8 @@ object DataContainerAlgebra {
 
     override def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
       datasets(ResultFootballMatchCompleteDf)
-        .write.mode(SaveMode.Overwrite).partitionBy("batch_id")
-        .avro(writePath)
+        .write.format("avro").mode(SaveMode.Overwrite).partitionBy("batch_id")
+        .save(writePath)
   }
 
 }

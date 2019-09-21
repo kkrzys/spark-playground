@@ -1,9 +1,8 @@
 package playground.core
 
-import com.databricks.spark.avro._
+import org.apache.spark.sql._
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.IntegerType
-import org.apache.spark.sql._
 import playground.core.DataContainer.DatasetName
 import playground.utils.RandomGenerator
 
@@ -38,8 +37,8 @@ object DataContainerInstances {
 
       override protected def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
         datasets(ResultFootballMatchCompleteDf)
-          .write.mode(SaveMode.Overwrite).partitionBy("batch_id")
-          .avro(writePath)
+          .write.format("avro").mode(SaveMode.Overwrite).partitionBy("batch_id")
+          .save(writePath)
     }
 
     lazy val eplStandingReceiveContainer = new DataContainer[Dataset, Row] {
@@ -69,8 +68,8 @@ object DataContainerInstances {
 
       override protected def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
         datasets(ResultEplStandingReceiveDf)
-          .write.mode(SaveMode.Overwrite).partitionBy("batch_id")
-          .avro(writePath)
+          .write.format("avro").mode(SaveMode.Overwrite).partitionBy("batch_id")
+          .save(writePath)
     }
   }
 
@@ -80,7 +79,7 @@ object DataContainerInstances {
       import DatasetNames.Distribute.FootballMatchCompleteDatasetNames._
 
       override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
-        sparkSession.read.avro("data/raw/ingestion/FootballMatchCompleted")
+        sparkSession.read.format("avro").load("data/raw/ingestion/FootballMatchCompleted")
 
       override protected def mapDataset(inputDataset: DataFrame)
                                        (implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
@@ -94,8 +93,8 @@ object DataContainerInstances {
 
       override protected def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
         datasets(ResultFootballMatchCompleteDf)
-          .write.mode(SaveMode.Overwrite).partitionBy("match_year_date")
-          .avro(writePath)
+          .write.format("avro").mode(SaveMode.Overwrite).partitionBy("match_year_date")
+          .save(writePath)
     }
 
     lazy val eplStandingReceiveContainer = new DataContainer[Dataset, Row] {
@@ -103,7 +102,7 @@ object DataContainerInstances {
       import DatasetNames.Distribute.EplStandingReceiveDatasetNames._
 
       override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
-        sparkSession.read.avro("data/raw/ingestion/EplStandingReceived")
+        sparkSession.read.format("avro").load("data/raw/ingestion/EplStandingReceived")
 
       override protected def mapDataset(inputDataset: DataFrame)
                                        (implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
@@ -116,7 +115,7 @@ object DataContainerInstances {
 
       override protected def writeFunc(datasets: Map[DatasetName, Dataset[_]], writePath: String): Unit =
         datasets(ResultEplStandingReceiveDf)
-          .write.mode(SaveMode.Overwrite).avro(writePath)
+          .write.format("avro").mode(SaveMode.Overwrite).save(writePath)
     }
   }
 
@@ -127,7 +126,7 @@ object DataContainerInstances {
       import DatasetNames.Explode.FootballMatchCompleteDatasetNames._
 
       override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
-        sparkSession.read.avro("data/raw/FootballMatchCompleted")
+        sparkSession.read.format("avro").load("data/raw/FootballMatchCompleted")
 
       override protected def mapDataset(inputDataset: DataFrame)(implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
         import sparkSession.implicits._
@@ -171,7 +170,7 @@ object DataContainerInstances {
       import DatasetNames.Explode.EplStandingReceiveDatasetNames._
 
       override protected def inputDataset(implicit sparkSession: SparkSession): DataFrame =
-        sparkSession.read.avro("data/raw/EplStandingReceived")
+        sparkSession.read.format("avro").load("data/raw/EplStandingReceived")
 
       override protected def mapDataset(inputDataset: DataFrame)
                                        (implicit sparkSession: SparkSession): Map[DatasetName, Dataset[_]] = {
