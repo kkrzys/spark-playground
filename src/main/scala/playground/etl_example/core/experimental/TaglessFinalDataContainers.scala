@@ -1,4 +1,4 @@
-package playground.core.experimental
+package playground.etl_example.core.experimental
 
 import org.apache.spark.sql.{Dataset, Encoder, SparkSession}
 import playground.utils.SparkUtils

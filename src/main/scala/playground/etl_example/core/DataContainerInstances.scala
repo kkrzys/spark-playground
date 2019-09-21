@@ -1,9 +1,9 @@
-package playground.core
+package playground.etl_example.core
 
 import org.apache.spark.sql._
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.IntegerType
-import playground.core.DataContainer.DatasetName
+import playground.etl_example.core.DataContainer.DatasetName
 import playground.utils.RandomGenerator
 
 object DataContainerInstances {

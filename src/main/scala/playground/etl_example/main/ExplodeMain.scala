@@ -1,7 +1,7 @@
-package playground.main
+package playground.etl_example.main
 
 import org.apache.spark.sql.SparkSession
-import playground.jobs.etl.ExplodeSJob
+import playground.etl_example.jobs.etl.ExplodeSJob
 import playground.utils.SparkUtils
 
 object ExplodeMain {

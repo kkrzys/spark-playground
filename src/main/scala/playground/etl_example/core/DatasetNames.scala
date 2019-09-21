@@ -1,6 +1,6 @@
-package playground.core
+package playground.etl_example.core
 
-import playground.core.DataContainer.DatasetName
+import playground.etl_example.core.DataContainer.DatasetName
 
 object DatasetNames {
 

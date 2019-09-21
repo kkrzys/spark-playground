@@ -1,10 +1,10 @@
-package playground.jobs.etl
+package playground.etl_example.jobs.etl
 
 import org.apache.spark.sql.{SaveMode, SparkSession}
-import playground.core.DatasetNames.Explode.EplStandingReceiveDatasetNames._
-import playground.core.DatasetNames.Explode.FootballMatchCompleteDatasetNames._
-import playground.core.{DataContainerInstances, DataContainerUtils}
-import playground.jobs.SJob
+import playground.etl_example.core.DatasetNames.Explode.EplStandingReceiveDatasetNames._
+import playground.etl_example.core.DatasetNames.Explode.FootballMatchCompleteDatasetNames._
+import playground.etl_example.core.{DataContainerInstances, DataContainerUtils}
+import playground.etl_example.jobs.SJob
 
 class ExplodeSJob(implicit sparkSession: SparkSession) extends SJob {
 

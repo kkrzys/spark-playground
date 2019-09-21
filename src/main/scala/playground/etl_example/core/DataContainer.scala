@@ -1,7 +1,7 @@
-package playground.core
+package playground.etl_example.core
 
 import org.apache.spark.sql.SparkSession
-import playground.core.DataContainer.DatasetName
+import playground.etl_example.core.DataContainer.DatasetName
 
 import scala.language.higherKinds
 

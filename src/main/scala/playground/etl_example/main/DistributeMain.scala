@@ -1,7 +1,7 @@
-package playground.main
+package playground.etl_example.main
 
 import org.apache.spark.sql.SparkSession
-import playground.jobs.etl.DistributeSJob
+import playground.etl_example.jobs.etl.DistributeSJob
 import playground.utils.SparkUtils
 
 object DistributeMain {

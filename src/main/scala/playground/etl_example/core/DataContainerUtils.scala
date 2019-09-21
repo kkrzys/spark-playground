@@ -1,7 +1,7 @@
-package playground.core
+package playground.etl_example.core
 
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
-import playground.core.DataContainer.DatasetName
+import playground.etl_example.core.DataContainer.DatasetName
 
 object DataContainerUtils {
   def join[A, B](c1: DataContainer[Dataset, A], c2: DataContainer[Dataset, B])

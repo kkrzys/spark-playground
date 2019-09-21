@@ -1,7 +1,7 @@
-package playground.main
+package playground.etl_example.main
 
 import org.apache.spark.sql.SparkSession
-import playground.jobs.etl.IngestSJob
+import playground.etl_example.jobs.etl.IngestSJob
 import playground.utils.SparkUtils
 
 object IngestMain {

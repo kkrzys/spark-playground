@@ -1,10 +1,10 @@
-package playground.core.experimental
+package playground.etl_example.core.experimental
 
 import org.apache.spark.sql.functions.{col, when}
 import org.apache.spark.sql.{Dataset, Row, SaveMode, SparkSession}
-import playground.core.experimental.DataContainerAlgebra.IngestInterpreter
-import playground.core.experimental.DatasetNames.DatasetName
-import playground.core.experimental.DatasetNames.Ingest.FootballMatchCompleteDatasetNames.ResultFootballMatchCompleteDf
+import playground.etl_example.core.experimental.DataContainerAlgebra.IngestInterpreter
+import playground.etl_example.core.experimental.DatasetNames.DatasetName
+import playground.etl_example.core.experimental.DatasetNames.Ingest.FootballMatchCompleteDatasetNames.ResultFootballMatchCompleteDf
 import playground.utils.{RandomGenerator, SparkUtils}
 
 import scala.language.higherKinds
